@@ -4,17 +4,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import com.worklight.wlclient.api.*;
 import com.worklight.wlclient.auth.AccessToken;
-import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPush;                                      
-import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushException;                                      
-import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushNotificationListener;                                      
-import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushResponseListener;                                      
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPush;
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushException;
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushNotificationListener;
+import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushResponseListener;
 import com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPSimplePushNotification;
-import com.worklight.ibmmobilefirstplatformfoundationliveupdate.LiveUpdateManager;                                      
-import com.worklight.ibmmobilefirstplatformfoundationliveupdate.api.Configuration;                                      
+import com.worklight.ibmmobilefirstplatformfoundationliveupdate.LiveUpdateManager;
+import com.worklight.ibmmobilefirstplatformfoundationliveupdate.api.Configuration;
 import com.worklight.ibmmobilefirstplatformfoundationliveupdate.api.ConfigurationListener;
-import com.worklight.common.WLAnalytics;                                      
-import com.worklight.common.WLAnalytics.DeviceEvent;                                      
-import com.worklight.common.Logger;                                      
+import com.worklight.common.WLAnalytics;
+import com.worklight.common.WLAnalytics.DeviceEvent;
+import com.worklight.common.Logger;
 import com.worklight.common.Logger.LEVEL;
 
 public class MainApplication extends AppCompatActivity {
@@ -34,55 +34,49 @@ public class MainApplication extends AppCompatActivity {
         mfLiveUpdateInit();
         mfAnalyticsInit();
     }
-    private void mfAnalyticsInit() {                                  
-        WLAnalytics.init(this.getApplication());                                  
-        WLAnalytics.addDeviceEventListener(DeviceEvent.LIFECYCLE);                                  
-        WLAnalytics.addDeviceEventListener(DeviceEvent.NETWORK);                                  
-        try { 
-                                  
-            org.json.JSONObject json = new org.json.JSONObject();                                  
-            json.put("customDataKey", "customDataValue");                                  
-            WLAnalytics.log("App started successfully...", json);                                  
-            WLAnalytics.send();                                  
-                                  
-        } catch (org.json.JSONException e) {                                  
-            e.printStackTrace();                                  
-        }                                  
-        Logger logger = Logger.getInstance("DemoApp9");                                  
-        logger.setLevel(LEVEL.DEBUG);                                  
-        logger.debug("App started successfully...");                                  
-        logger.send();                                  
+    private void mfAnalyticsInit() {
+        WLAnalytics.init(this.getApplication());
+        WLAnalytics.addDeviceEventListener(DeviceEvent.LIFECYCLE);
+        WLAnalytics.addDeviceEventListener(DeviceEvent.NETWORK);
+        try {
+            org.json.JSONObject json = new org.json.JSONObject();
+            json.put("customDataKey", "customDataValue");
+            WLAnalytics.log("App started successfully...", json);
+            WLAnalytics.send();                               
+        } catch (org.json.JSONException e) {
+            e.printStackTrace();
+        }
+        Logger logger = Logger.getInstance("DemoAppA");
+        logger.setLevel(LEVEL.DEBUG);
+        logger.debug("App started successfully...");
+        logger.send();
     }
 
-    private void mfLiveUpdateInit() {                                  
-        LiveUpdateManager.getInstance(this).obtainConfiguration(false, new LiveUpdateListener());                                  
+    private void mfLiveUpdateInit() {
+        LiveUpdateManager.getInstance(this).obtainConfiguration(false, new LiveUpdateListener());
     }
 
-    private void mfPushInit() {                                  
-        push = MFPPush.getInstance();                                  
-        push.initialize(this);                                  
-        push.registerDevice(null, new PushListener());                                  
-        push.listen(new PushListener());                                  
-    }
-                                  
+    private void mfPushInit() {
+        push = MFPPush.getInstance();
+        push.initialize(this);
+        push.registerDevice(null, new PushListener());
+        push.listen(new PushListener());
+    }  
 
-                                  
-    @Override                                  
-    public void onPause() {                                  
-        super.onPause();                                  
-        if (push != null) {                                  
-            push.hold();                                  
-        }                                  
-    }                                  
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (push != null) {
+            push.hold();
+        }
+    }  
 
-                                  
-    @Override                                  
-    public void onResume() {                                  
-        super.onResume();                                  
-        if (push != null) {                                  
-            push.listen(new PushListener());                                  
-        } 
-                                  
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (push != null) {
+            push.listen(new PushListener());
+        }
     }
 
     
@@ -119,27 +113,32 @@ public class MainApplication extends AppCompatActivity {
             changeStatusMessage("Failed to connect to MobileFirst Server");
         } 
     }
-    class PushListener extends BaseListener implements MFPPushResponseListener<String>, MFPPushNotificationListener {                                  
-        @Override                                  
-        public void onSuccess(String s) {                                  
-            changeStatusMessage("Device successfully registered for push");                                  
-        }                                  
-        @Override                                  
-        public void onSuccess(org.json.JSONObject jobj) {                                  
-            changeStatusMessage("Device successfully registered for push");                                  
-        }                                  
-        @Override                                  
-        public void onFailure(MFPPushException e) {                                  
-            changeStatusMessage("Failed to register the device for push");                                  
-        }                                  
-        @Override                                  
-        public void onReceive(MFPSimplePushNotification mfpSimplePushNotification) {                                  
-            changeStatusMessage("Received notification : " + mfpSimplePushNotification.getAlert());                                  
-        }                                  
+
+    class PushListener extends BaseListener implements MFPPushResponseListener<String>, MFPPushNotificationListener {
+        @Override
+        public void onSuccess(String s) {
+            changeStatusMessage("Device successfully registered for push");
+        }
+
+        @Override
+        public void onSuccess(org.json.JSONObject jobj) {
+            changeStatusMessage("Device successfully registered for push");
+        }
+
+        @Override
+        public void onFailure(MFPPushException e) {
+            changeStatusMessage("Failed to register the device for push");
+        }
+
+        @Override
+        public void onReceive(MFPSimplePushNotification mfpSimplePushNotification) {
+            changeStatusMessage("Received notification : " + mfpSimplePushNotification.getAlert());
+        }
     }
-    class LiveUpdateListener extends BaseListener implements ConfigurationListener {                                  
-        @Override                                  
-        public void onSuccess(final Configuration configuration) {                                  
+   
+    class LiveUpdateListener extends BaseListener implements ConfigurationListener {
+        @Override
+        public void onSuccess(final Configuration configuration) {
             try {                                                        
                 org.json.JSONObject luObject = new org.json.JSONObject();
                 luObject.put("enableButton", configuration.isFeatureEnabled("enableButton"));
@@ -148,12 +147,11 @@ public class MainApplication extends AppCompatActivity {
             } catch (org.json.JSONException e) {                                                        
                 changeStatusMessage("Failed to obtain live update configuration");                                                        
             }  
-                                  
-        }                                  
-        @Override                                  
-        public void onFailure(WLFailResponse wlFailResponse) {                                  
-            changeStatusMessage("Failed to obtain live update configuration");                                    
-                                  
-        }                                  
+        }
+
+        @Override
+        public void onFailure(WLFailResponse wlFailResponse) {
+            changeStatusMessage("Failed to obtain live update configuration");                                   
+        }
     }
 }

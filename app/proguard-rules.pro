@@ -100,4 +100,8 @@
 -dontwarn android.net.http.*
 -dontwarn okio.**
 -dontwarn com.squareup.okhttp.**
+-dontwarn com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushNewIntentService
+-dontwarn com.ibm.mobilefirstplatform.clientsdk.android.push.api.MFPPushInstanceIDListenerService
+-dontwarn okhttp3.internal.huc.OkHttpsURLConnection
+-dontwarn okhttp3.internal.huc.DelegatingHttpsURLConnection
 ################################################################################
